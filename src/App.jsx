@@ -22,40 +22,18 @@ function App() {
       <ControlPanel
         {...visualizer}
         generateNewArray={visualizer.reset}
+        viewMode={viewMode}
+        setViewMode={setViewMode}
+        algCompare1={algCompare1}
+        setAlgCompare1={setAlgCompare1}
+        algCompare2={algCompare2}
+        setAlgCompare2={setAlgCompare2}
       />
 
       <main className="main-content">
         <header className="main-header">
           <div className="header-left">
             <h2>{viewMode === 'single' ? 'Standard Visualization' : 'Comparison Mode'}</h2>
-          </div>
-          <div className="header-right">
-            {viewMode === 'comparison' && (
-              <div className="comparison-selectors">
-                <select value={algCompare1} onChange={(e) => setAlgCompare1(e.target.value)} disabled={visualizer.isSorting}>
-                  <option value="bubble">Bubble</option>
-                  <option value="selection">Selection</option>
-                  <option value="insertion">Insertion</option>
-                  <option value="merge">Merge</option>
-                  <option value="quick">Quick</option>
-                  <option value="heap">Heap</option>
-                  <option value="counting">Counting</option>
-                </select>
-                <span>vs</span>
-                <select value={algCompare2} onChange={(e) => setAlgCompare2(e.target.value)} disabled={visualizer.isSorting}>
-                  <option value="bubble">Bubble</option>
-                  <option value="selection">Selection</option>
-                  <option value="insertion">Insertion</option>
-                  <option value="merge">Merge</option>
-                  <option value="quick">Quick</option>
-                  <option value="heap">Heap</option>
-                  <option value="counting">Counting</option>
-                </select>
-              </div>
-            )}
-            <button className="btn-mode-toggle" onClick={handleModeToggle}>
-              {viewMode === 'single' ? 'Switch to Comparison' : 'Switch to Single'}
-            </button>
           </div>
         </header>
 

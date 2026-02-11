@@ -4,19 +4,31 @@ class SoundManager {
         this.enabled = false;
     }
 
-    init() {
+    async init() {
         if (!this.audioCtx) {
             this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         }
+
+        if (this.audioCtx.state === 'suspended') {
+            await this.audioCtx.resume();
+        }
     }
 
-    toggle(value) {
+    async toggle(value) {
         this.enabled = value;
-        if (this.enabled) this.init();
+        if (this.enabled) {
+            await this.init();
+        }
     }
 
-    playTone(value, duration = 0.1) {
-        if (!this.enabled || !this.audioCtx) return;
+    async playTone(value, duration = 0.1) {
+        if (!this.enabled) return;
+
+        if (!this.audioCtx || this.audioCtx.state === 'suspended') {
+            await this.init();
+        }
+
+        if (!this.audioCtx) return;
 
         const oscillator = this.audioCtx.createOscillator();
         const gainNode = this.audioCtx.createGain();

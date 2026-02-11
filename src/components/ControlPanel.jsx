@@ -18,18 +18,73 @@ const ControlPanel = ({
     pauseSorting,
     reset,
     changeAlgorithm,
-    generateNewArray
+    generateNewArray,
+    viewMode,
+    setViewMode,
+    algCompare1,
+    setAlgCompare1,
+    algCompare2,
+    setAlgCompare2
 }) => {
+
+    const handleModeToggle = () => {
+        reset();
+        setViewMode(prev => prev === 'single' ? 'comparison' : 'single');
+    };
 
     return (
         <div className="control-panel">
-            <h1>Visualizer Pro</h1>
+            <div className="brand-header">
+                <h1>Visualizer Pro</h1>
+                <button
+                    className={`btn btn-mode-toggle ${viewMode === 'comparison' ? 'active' : ''}`}
+                    onClick={handleModeToggle}
+                    disabled={isSorting}
+                >
+                    {viewMode === 'single' ? 'Switch to Comparison' : 'Switch to Single'}
+                </button>
+            </div>
 
-            <AlgorithmSelector
-                currentAlgorithm={currentAlgorithm}
-                onAlgorithmChange={changeAlgorithm}
-                isDisabled={isSorting}
-            />
+            {viewMode === 'single' ? (
+                <AlgorithmSelector
+                    currentAlgorithm={currentAlgorithm}
+                    onAlgorithmChange={changeAlgorithm}
+                    isDisabled={isSorting}
+                />
+            ) : (
+                <div className="control-group">
+                    <label>Compare Algorithms</label>
+                    <div className="comparison-inputs">
+                        <select
+                            value={algCompare1}
+                            onChange={(e) => setAlgCompare1(e.target.value)}
+                            disabled={isSorting}
+                        >
+                            <option value="bubble">Bubble</option>
+                            <option value="selection">Selection</option>
+                            <option value="insertion">Insertion</option>
+                            <option value="merge">Merge</option>
+                            <option value="quick">Quick</option>
+                            <option value="heap">Heap</option>
+                            <option value="counting">Counting</option>
+                        </select>
+                        <div className="vs-sign">VS</div>
+                        <select
+                            value={algCompare2}
+                            onChange={(e) => setAlgCompare2(e.target.value)}
+                            disabled={isSorting}
+                        >
+                            <option value="bubble">Bubble</option>
+                            <option value="selection">Selection</option>
+                            <option value="insertion">Insertion</option>
+                            <option value="merge">Merge</option>
+                            <option value="quick">Quick</option>
+                            <option value="heap">Heap</option>
+                            <option value="counting">Counting</option>
+                        </select>
+                    </div>
+                </div>
+            )}
 
             <div className="control-group">
                 <label>Array Size: {size}</label>
